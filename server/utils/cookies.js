@@ -1,8 +1,10 @@
+import jwt from "jsonwebtoken";
+
 const refreshCookieOptions = {
   httpOnly: true,
-  secure: true,
+  secure: false,
   sameSite: "strict",
-  path: "/auth/refresh",
+  path: "/",
 };
 
 export function sendRefreshToken(res, refreshToken) {
@@ -11,4 +13,8 @@ export function sendRefreshToken(res, refreshToken) {
 
 export function clearRefreshToken(res) {
   res.clearCookie("refreshToken", refreshCookieOptions);
+}
+
+export function verifyRefreshToken(token) {
+  return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 }
